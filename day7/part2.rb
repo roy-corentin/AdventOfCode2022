@@ -30,15 +30,6 @@ def path(element)
   element + (element.end_with?('/') ? '' : '/')
 end
 
-def sum_dir_at_most(data, max, directories = [])
-  data.each_key do |location|
-    directories << location if data.keys.any? { |loc| loc != location && loc.start_with?(location) }
-  end
-  directories = directories.filter { |directory| data[directory] <= max }
-
-  directories.inject(0) { |sum, dir| sum += data[dir] }
-end
-
 def file_to_delete(data, directories = [], max_space = 70_000_000, target = 30_000_000)
   data.each_key do |location|
     directories << location if data.keys.any? { |loc| loc != location && loc.start_with?(location) }
@@ -46,8 +37,7 @@ def file_to_delete(data, directories = [], max_space = 70_000_000, target = 30_0
   used_space = data['/']
   free_space = max_space - used_space
   directories = directories.filter { |directory| data[directory] + free_space >= target }
-  values = directories.map { |dir| data[dir] }
-  values.min
+  directories.map { |dir| data[dir] }.min
 end
 
 print(file_to_delete(parser(open_file('input.txt')))) # rigth answer 2832508
