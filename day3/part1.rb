@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 def char_values(characters)
-  weights = characters.map do |char|
+  characters.map do |char|
     if ('A'..'Z').include? char
       char.ord - 38
     elsif ('a'..'z').include? char
